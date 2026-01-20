@@ -25,7 +25,7 @@ class Settings(BaseSettings):
     env: Literal["development", "staging", "production"] = "development"
 
     # Application
-    app_name: str = "hr-policy-advisor"
+    app_name: str = "hr-system-agent"
     app_version: str = "0.1.0"
     debug: bool = False
 

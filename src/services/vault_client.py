@@ -88,7 +88,7 @@ class VaultClient:
     # Application-specific secret access
     def get_gemini_api_key(self) -> str | None:
         """Get Gemini API key from Vault or settings."""
-        secret = self.read_secret("hr-policy-advisor/gemini")
+        secret = self.read_secret("hr-system-agent/gemini")
         if secret and "api_key" in secret:
             return secret["api_key"]
         # Fallback to environment variable
@@ -97,17 +97,17 @@ class VaultClient:
 
     def get_database_credentials(self) -> dict[str, str] | None:
         """Get database credentials from Vault."""
-        return self.read_secret("hr-policy-advisor/database")
+        return self.read_secret("hr-system-agent/database")
 
     def get_company_secrets(self, company_id: str) -> dict[str, Any] | None:
         """Get company-specific secrets."""
-        return self.read_secret(f"hr-policy-advisor/companies/{company_id}")
+        return self.read_secret(f"hr-system-agent/companies/{company_id}")
 
     def store_company_secrets(
         self, company_id: str, secrets: dict[str, Any]
     ) -> None:
         """Store company-specific secrets."""
-        self.write_secret(f"hr-policy-advisor/companies/{company_id}", secrets)
+        self.write_secret(f"hr-system-agent/companies/{company_id}", secrets)
 
 
 # Singleton instance

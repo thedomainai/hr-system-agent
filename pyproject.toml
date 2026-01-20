@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "hr-policy-advisor"
+name = "hr-system-agent"
 version = "0.1.0"
 description = "AI-powered HR policy design advisor with Human-in-the-Loop"
 readme = "README.md"
@@ -51,12 +51,12 @@ dev = [
 ]
 
 [project.scripts]
-hr-policy-advisor = "src.main:main"
+hr-system-agent = "src.main:main"
 
 [project.urls]
-Homepage = "https://github.com/thedomainai/hr-policy-advisor"
-Repository = "https://github.com/thedomainai/hr-policy-advisor"
-Issues = "https://github.com/thedomainai/hr-policy-advisor/issues"
+Homepage = "https://github.com/thedomainai/hr-system-agent"
+Repository = "https://github.com/thedomainai/hr-system-agent"
+Issues = "https://github.com/thedomainai/hr-system-agent/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src"]
