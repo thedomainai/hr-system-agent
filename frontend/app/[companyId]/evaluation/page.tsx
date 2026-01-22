@@ -97,7 +97,7 @@ export default function EvaluationPage({ params }: { params: { companyId: string
             </div>
             <h3 className="font-bold text-slate-800">評価構成ウェイト</h3>
           </div>
-          <span className="text-sm text-slate-500">合計 100%</span>
+          <span className="text-sm text-slate-500">合計 100</span>
         </div>
 
         <div className="p-8">
@@ -107,9 +107,9 @@ export default function EvaluationPage({ params }: { params: { companyId: string
                 key={criteria.name}
                 className={`h-full flex items-center justify-center text-white font-bold transition-all hover:opacity-90 cursor-help ${criteria.color}`}
                 style={{ width: `${criteria.weight}%` }}
-                title={`${criteria.name}: ${criteria.weight}%`}
+                title={`${criteria.name}: ${criteria.weight}`}
               >
-                {criteria.weight}%
+                {criteria.weight}
               </div>
             ))}
           </div>
@@ -121,7 +121,7 @@ export default function EvaluationPage({ params }: { params: { companyId: string
                   <div className={`w-4 h-4 rounded-full ${criteria.color}`} />
                   <div>
                     <span className="font-bold text-slate-800">{criteria.name}</span>
-                    <span className="text-slate-500 ml-2">({criteria.weight}%)</span>
+                    <span className="text-slate-500 ml-2">({criteria.weight})</span>
                   </div>
                 </div>
                 <span className={`px-3 py-1 rounded-full text-xs font-bold ${

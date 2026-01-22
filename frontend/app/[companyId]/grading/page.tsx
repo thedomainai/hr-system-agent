@@ -81,6 +81,38 @@ export default function GradingPage({ params }: { params: { companyId: string } 
     return definitions[gradeLv]?.[compName] || '定義なし';
   };
 
+  // Element definitions per grade (成果・振る舞い)
+  const getElementDefinition = (gradeLv: string, elementName: string) => {
+    const definitions: Record<string, Record<string, string>> = {
+      'M1': {
+        '成果': '事業KPIの達成に直接責任を持ち、組織全体の業績向上に貢献する成果を創出する',
+        '振る舞い': '経営理念を体現し、組織の模範となる行動を一貫して示す'
+      },
+      'S2': {
+        '成果': '担当領域で高い目標を設定・達成し、部門業績に大きく貢献する',
+        '振る舞い': '後輩の模範となる行動を示し、チーム全体の行動水準を引き上げる'
+      },
+      'S1': {
+        '成果': 'チーム目標を達成し、期待を上回る成果を安定的に出せる',
+        '振る舞い': '企業理念に沿った行動を自発的に実践し、周囲に良い影響を与える'
+      },
+      'J2': {
+        '成果': '個人目標を確実に達成し、チームの成果に貢献する',
+        '振る舞い': '企業理念を理解し、日常業務で意識した行動ができる'
+      },
+      'J1': {
+        '成果': '与えられた目標に対して真摯に取り組み、達成に向けて努力する',
+        '振る舞い': '企業理念を学び、基本的なビジネスマナーを実践できる'
+      }
+    };
+    return definitions[gradeLv]?.[elementName] || '定義なし';
+  };
+
+  // コンピテンシー定義（詳細ビュー用）
+  const competencyNames = ['課題解決力', '協働推進力', '自律成長力'];
+  // エレメント定義
+  const elementNames = ['成果', '振る舞い'];
+
   // Render adjacent grade card (collapsed)
   const renderAdjacentGradeCard = (grade: typeof grades[0] | null, position: 'prev' | 'next', isVisible: boolean, onToggle: () => void) => {
     if (!grade) return null;
@@ -273,26 +305,50 @@ export default function GradingPage({ params }: { params: { companyId: string } 
           </div>
         </div>
       ) : (
-        /* Table View */
+        /* Table View - コンピテンシー・エレメント別基準一覧 */
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-x-auto">
           <table className="w-full text-sm text-left">
             <thead className="bg-slate-50 text-slate-500 font-medium border-b border-slate-200">
               <tr>
-                <th className="px-4 py-3 w-20">等級</th>
-                <th className="px-4 py-3 w-32">等級名</th>
-                <th className="px-4 py-3">定義・役割</th>
-                <th className="px-4 py-3 w-36 text-right">給与レンジ</th>
+                <th className="px-3 py-3 w-16 sticky left-0 bg-slate-50 z-10">等級</th>
+                <th colSpan={3} className="px-3 py-2 text-center border-l border-slate-200">
+                  <span className="text-blue-600 font-bold">コンピテンシー</span>
+                </th>
+                <th colSpan={2} className="px-3 py-2 text-center border-l border-slate-200">
+                  <span className="text-purple-600 font-bold">エレメント</span>
+                </th>
+              </tr>
+              <tr className="border-t border-slate-100">
+                <th className="px-3 py-2 sticky left-0 bg-slate-50 z-10"></th>
+                {competencyNames.map((name) => (
+                  <th key={name} className="px-3 py-2 text-xs text-blue-700 font-semibold border-l border-slate-100 first:border-l-slate-200">
+                    {name}
+                  </th>
+                ))}
+                {elementNames.map((name) => (
+                  <th key={name} className="px-3 py-2 text-xs text-purple-700 font-semibold border-l border-slate-100 first:border-l-slate-200">
+                    {name}
+                  </th>
+                ))}
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {grades.map((grade) => (
                 <tr key={grade.level} className="hover:bg-slate-50 transition-colors">
-                  <td className="px-4 py-3 font-bold text-slate-400">{grade.level}</td>
-                  <td className="px-4 py-3 font-bold text-slate-800">{grade.name}</td>
-                  <td className="px-4 py-3 text-slate-600">{grade.description}</td>
-                  <td className="px-4 py-3 text-right font-mono text-slate-700">
-                    {grade.salaryRange.min.toLocaleString()} - {grade.salaryRange.max.toLocaleString()}
+                  <td className="px-3 py-3 sticky left-0 bg-white z-10">
+                    <div className="font-bold text-slate-400 text-xs">{grade.level}</div>
+                    <div className="font-bold text-slate-800 text-sm">{grade.name}</div>
                   </td>
+                  {competencyNames.map((compName) => (
+                    <td key={compName} className="px-3 py-3 text-xs text-slate-600 border-l border-slate-100 align-top max-w-48">
+                      {getCompetencyDefinition(grade.level, compName)}
+                    </td>
+                  ))}
+                  {elementNames.map((elemName) => (
+                    <td key={elemName} className="px-3 py-3 text-xs text-slate-600 border-l border-slate-100 align-top max-w-40">
+                      {getElementDefinition(grade.level, elemName)}
+                    </td>
+                  ))}
                 </tr>
               ))}
             </tbody>

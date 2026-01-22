@@ -539,22 +539,30 @@ export default function TalentPage({ params }: { params: { companyId: string } }
               activePersona.personaSummary
             )}
             className={cn(
-              "w-full bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl p-5 text-white shadow-lg text-left transition-all flex flex-col",
+              "w-full rounded-2xl p-5 text-left transition-all flex flex-col bg-white",
+              "border-2 border-transparent bg-clip-padding",
+              "relative before:absolute before:inset-0 before:rounded-2xl before:p-[2px] before:bg-gradient-to-br before:from-indigo-500 before:to-purple-600 before:-z-10",
               selectedCard?.layerType === 'persona' && selectedCard?.personaId === activePersona.id
                 && "ring-4 ring-offset-2 ring-indigo-300"
             )}
+            style={{
+              background: 'white',
+              backgroundClip: 'padding-box',
+              border: '2px solid transparent',
+              borderImage: 'linear-gradient(to bottom right, #6366f1, #9333ea) 1',
+            }}
           >
             <div className="flex items-center gap-2 mb-3">
-              <div className="bg-white/20 p-2 rounded-lg">
+              <div className="bg-gradient-to-br from-indigo-500 to-purple-600 p-2 rounded-lg">
                 <User size={18} className="text-white" />
               </div>
-              <h3 className="font-bold text-sm uppercase tracking-wide text-white/80">人材像</h3>
+              <h3 className="font-extrabold text-sm uppercase tracking-wide bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">人材像</h3>
             </div>
-            <p className="text-white/90 text-sm leading-relaxed flex-1">
+            <p className="text-slate-800 font-bold text-sm leading-relaxed flex-1">
               {activePersona.personaSummary}
             </p>
             <div className="flex justify-end mt-3">
-              <Edit3 size={14} className="text-white/50" />
+              <Edit3 size={14} className="text-slate-400" />
             </div>
           </button>
         </div>

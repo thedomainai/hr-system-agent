@@ -172,33 +172,33 @@ export default function CompensationPage({ params }: { params: { companyId: stri
               <h3 className="font-bold text-slate-800">賞与設計</h3>
             </div>
 
-            <div className="grid grid-cols-2 gap-6">
-              {/* Formula */}
+            <div className="space-y-6">
+              {/* Formula - Horizontal full width */}
               <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl p-5 border border-amber-100">
                 <h4 className="font-bold text-slate-800 text-sm mb-4">基本計算式</h4>
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className="bg-white px-3 py-2 rounded-lg border border-amber-200 font-mono text-sm font-bold text-slate-700 shadow-sm">
+                <div className="flex items-center justify-center gap-3">
+                  <span className="bg-white px-4 py-2 rounded-lg border border-amber-200 font-mono text-sm font-bold text-slate-700 shadow-sm">
                     基本給
                   </span>
-                  <span className="text-slate-400">×</span>
-                  <span className="bg-white px-3 py-2 rounded-lg border border-amber-200 font-mono text-sm font-bold text-slate-700 shadow-sm">
+                  <span className="text-slate-400 font-bold">×</span>
+                  <span className="bg-white px-4 py-2 rounded-lg border border-amber-200 font-mono text-sm font-bold text-slate-700 shadow-sm">
                     2.0ヶ月
                   </span>
-                  <span className="text-slate-400">×</span>
-                  <span className="bg-white px-3 py-2 rounded-lg border border-amber-200 font-mono text-sm font-bold text-slate-700 shadow-sm">
+                  <span className="text-slate-400 font-bold">×</span>
+                  <span className="bg-white px-4 py-2 rounded-lg border border-amber-200 font-mono text-sm font-bold text-slate-700 shadow-sm">
                     会社係数
                   </span>
-                  <span className="text-slate-400">×</span>
-                  <span className="bg-white px-3 py-2 rounded-lg border border-amber-200 font-mono text-sm font-bold text-slate-700 shadow-sm">
+                  <span className="text-slate-400 font-bold">×</span>
+                  <span className="bg-white px-4 py-2 rounded-lg border border-amber-200 font-mono text-sm font-bold text-slate-700 shadow-sm">
                     個人係数
                   </span>
                 </div>
               </div>
 
-              {/* Coefficient Table */}
+              {/* Coefficient Table - Below formula */}
               <div className="bg-slate-50 rounded-xl p-5 border border-slate-200">
                 <h4 className="font-bold text-slate-800 text-sm mb-4">個人評価係数</h4>
-                <div className="grid grid-cols-5 gap-2">
+                <div className="flex justify-center gap-4">
                   {[
                     { rating: '5', coeff: '1.5', color: 'bg-green-500' },
                     { rating: '4', coeff: '1.2', color: 'bg-green-400' },
@@ -206,7 +206,7 @@ export default function CompensationPage({ params }: { params: { companyId: stri
                     { rating: '2', coeff: '0.8', color: 'bg-orange-400' },
                     { rating: '1', coeff: '0.0', color: 'bg-red-400' },
                   ].map((item) => (
-                    <div key={item.rating} className="text-center">
+                    <div key={item.rating} className="text-center w-16">
                       <div className={`${item.color} text-white font-bold rounded-lg py-2 mb-1`}>
                         {item.rating}
                       </div>
