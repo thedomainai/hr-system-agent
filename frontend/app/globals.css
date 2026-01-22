@@ -13,6 +13,17 @@
   body {
     @apply bg-slate-50 text-slate-900 antialiased;
   }
+
+  /* Global input and textarea styles */
+  input[type="text"],
+  input[type="email"],
+  input[type="number"],
+  input[type="tel"],
+  input[type="url"],
+  input[type="password"],
+  textarea {
+    @apply bg-white text-slate-900;
+  }
 }
 
 /* Custom scrollbar */

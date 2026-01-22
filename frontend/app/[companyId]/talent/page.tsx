@@ -449,7 +449,7 @@ export default function TalentPage({ params }: { params: { companyId: string } }
       </div>
 
       {/* Main Content - Horizontal Layout */}
-      <div className="flex gap-6 items-start">
+      <div className="flex gap-6 items-stretch">
         {/* Section 1: 特性 */}
         <div className="flex-1 bg-white rounded-2xl border border-slate-200 p-6">
           <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-4">
@@ -529,7 +529,7 @@ export default function TalentPage({ params }: { params: { companyId: string } }
         </div>
 
         {/* Section 2: 人材像 */}
-        <div className="w-72">
+        <div className="w-72 flex">
           <button
             onClick={() => handleCardSelect(
               activePersona.id,
@@ -539,7 +539,7 @@ export default function TalentPage({ params }: { params: { companyId: string } }
               activePersona.personaSummary
             )}
             className={cn(
-              "w-full bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl p-5 text-white shadow-lg text-left transition-all h-full",
+              "w-full bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl p-5 text-white shadow-lg text-left transition-all flex flex-col",
               selectedCard?.layerType === 'persona' && selectedCard?.personaId === activePersona.id
                 && "ring-4 ring-offset-2 ring-indigo-300"
             )}
@@ -550,7 +550,7 @@ export default function TalentPage({ params }: { params: { companyId: string } }
               </div>
               <h3 className="font-bold text-sm uppercase tracking-wide text-white/80">人材像</h3>
             </div>
-            <p className="text-white/90 text-sm leading-relaxed">
+            <p className="text-white/90 text-sm leading-relaxed flex-1">
               {activePersona.personaSummary}
             </p>
             <div className="flex justify-end mt-3">
