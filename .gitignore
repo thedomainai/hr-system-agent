@@ -59,6 +59,12 @@ logs/
 .DS_Store
 Thumbs.db
 
+# Node.js / Frontend
+node_modules/
+.next/
+.turbo/
+*.tsbuildinfo
+
 # Docker
 .docker/
 
