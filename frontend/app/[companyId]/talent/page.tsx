@@ -321,7 +321,7 @@ export default function TalentPage({ params }: { params: { companyId: string } }
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="flex flex-col gap-3 max-w-md mx-auto">
           {CULTURE_KEYWORDS.map((item) => {
             const isSelected = selectedKeywords.includes(item.id);
             return (
@@ -329,26 +329,27 @@ export default function TalentPage({ params }: { params: { companyId: string } }
                 key={item.id}
                 onClick={() => toggleKeyword(item.id)}
                 className={cn(
-                  "p-6 rounded-xl border-2 text-left transition-all relative overflow-hidden group",
+                  "p-4 rounded-xl border-2 text-left transition-all relative overflow-hidden group flex items-center gap-4",
                   isSelected
                     ? "border-primary-500 bg-primary-50 shadow-md"
                     : "border-slate-200 bg-white hover:border-primary-200 hover:bg-slate-50"
                 )}
               >
                 <div className={cn(
-                  "w-10 h-10 rounded-lg flex items-center justify-center mb-3 transition-colors",
+                  "w-10 h-10 rounded-lg flex items-center justify-center shrink-0 transition-colors",
                   isSelected ? "bg-primary-500 text-white" : "bg-slate-100 text-slate-400 group-hover:text-primary-500"
                 )}>
                   <item.icon size={20} />
                 </div>
-                <h3 className={cn("font-bold mb-1", isSelected ? "text-primary-900" : "text-slate-800")}>
-                  {item.label}
-                </h3>
-                <p className="text-xs text-slate-500">{item.desc}</p>
-
+                <div className="flex-1 min-w-0">
+                  <h3 className={cn("font-bold", isSelected ? "text-primary-900" : "text-slate-800")}>
+                    {item.label}
+                  </h3>
+                  <p className="text-xs text-slate-500">{item.desc}</p>
+                </div>
                 {isSelected && (
-                  <div className="absolute top-3 right-3 w-5 h-5 bg-primary-500 rounded-full flex items-center justify-center">
-                    <Star size={12} className="text-white" fill="currentColor" />
+                  <div className="w-6 h-6 bg-primary-500 rounded-full flex items-center justify-center shrink-0">
+                    <Star size={14} className="text-white" fill="currentColor" />
                   </div>
                 )}
               </button>
@@ -447,99 +448,88 @@ export default function TalentPage({ params }: { params: { companyId: string } }
         ))}
       </div>
 
-      {/* Main Content Area */}
-      <div className="flex gap-6">
-        {/* Left: Flow Diagram */}
-        <div className="flex-1 space-y-6">
-          {/* Section 1: Flow (Psychological → Behavioral → Surface) */}
-          <div className="bg-white rounded-2xl border border-slate-200 p-6">
-            <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-4">
-              特性の構造
-            </h3>
+      {/* Main Content - Horizontal Layout */}
+      <div className="flex gap-6 items-start">
+        {/* Section 1: 特性 */}
+        <div className="flex-1 bg-white rounded-2xl border border-slate-200 p-6">
+          <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-4">
+            特性
+          </h3>
 
-            <div className="flex items-start gap-4">
-              {/* Psychological Layer */}
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-3">
-                  <div className={cn("p-1.5 rounded-lg", LAYER_CONFIG.psychological.iconBg)}>
-                    <Brain size={16} className={LAYER_CONFIG.psychological.iconColor} />
-                  </div>
-                  <span className="font-semibold text-slate-700 text-sm">
-                    {LAYER_CONFIG.psychological.label}
-                  </span>
+          <div className="flex gap-4">
+            {/* 背景にある心理特性 */}
+            <div className="flex-1">
+              <div className="flex items-center gap-2 mb-3">
+                <div className={cn("p-1.5 rounded-lg", LAYER_CONFIG.psychological.iconBg)}>
+                  <Brain size={16} className={LAYER_CONFIG.psychological.iconColor} />
                 </div>
-                <div className="space-y-2">
-                  {activePersona.psychologicalTraits.map((trait) => (
-                    <TraitCard
-                      key={trait.id}
-                      trait={trait}
-                      layerType="psychological"
-                      isSelected={selectedCard?.cardId === trait.id}
-                      onClick={() => handleCardSelect(activePersona.id, 'psychological', trait, trait.id)}
-                    />
-                  ))}
-                </div>
+                <span className="font-semibold text-slate-700 text-sm">
+                  背景にある心理特性
+                </span>
               </div>
-
-              {/* Arrow */}
-              <div className="flex items-center pt-12">
-                <ChevronRight size={24} className="text-slate-300" />
+              <div className="space-y-2">
+                {activePersona.psychologicalTraits.map((trait) => (
+                  <TraitCard
+                    key={trait.id}
+                    trait={trait}
+                    layerType="psychological"
+                    isSelected={selectedCard?.cardId === trait.id}
+                    onClick={() => handleCardSelect(activePersona.id, 'psychological', trait, trait.id)}
+                  />
+                ))}
               </div>
+            </div>
 
-              {/* Behavioral Layer */}
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-3">
-                  <div className={cn("p-1.5 rounded-lg", LAYER_CONFIG.behavioral.iconBg)}>
-                    <Activity size={16} className={LAYER_CONFIG.behavioral.iconColor} />
-                  </div>
-                  <span className="font-semibold text-slate-700 text-sm">
-                    {LAYER_CONFIG.behavioral.label}
-                  </span>
+            {/* 背景にある行動特性 */}
+            <div className="flex-1">
+              <div className="flex items-center gap-2 mb-3">
+                <div className={cn("p-1.5 rounded-lg", LAYER_CONFIG.behavioral.iconBg)}>
+                  <Activity size={16} className={LAYER_CONFIG.behavioral.iconColor} />
                 </div>
-                <div className="space-y-2">
-                  {activePersona.behavioralTraits.map((trait) => (
-                    <TraitCard
-                      key={trait.id}
-                      trait={trait}
-                      layerType="behavioral"
-                      isSelected={selectedCard?.cardId === trait.id}
-                      onClick={() => handleCardSelect(activePersona.id, 'behavioral', trait, trait.id)}
-                    />
-                  ))}
-                </div>
+                <span className="font-semibold text-slate-700 text-sm">
+                  背景にある行動特性
+                </span>
               </div>
-
-              {/* Arrow */}
-              <div className="flex items-center pt-12">
-                <ChevronRight size={24} className="text-slate-300" />
+              <div className="space-y-2">
+                {activePersona.behavioralTraits.map((trait) => (
+                  <TraitCard
+                    key={trait.id}
+                    trait={trait}
+                    layerType="behavioral"
+                    isSelected={selectedCard?.cardId === trait.id}
+                    onClick={() => handleCardSelect(activePersona.id, 'behavioral', trait, trait.id)}
+                  />
+                ))}
               </div>
+            </div>
 
-              {/* Surface Layer */}
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-3">
-                  <div className={cn("p-1.5 rounded-lg", LAYER_CONFIG.surface.iconBg)}>
-                    <Eye size={16} className={LAYER_CONFIG.surface.iconColor} />
-                  </div>
-                  <span className="font-semibold text-slate-700 text-sm">
-                    {LAYER_CONFIG.surface.label}
-                  </span>
+            {/* 表面化した行動 */}
+            <div className="flex-1">
+              <div className="flex items-center gap-2 mb-3">
+                <div className={cn("p-1.5 rounded-lg", LAYER_CONFIG.surface.iconBg)}>
+                  <Eye size={16} className={LAYER_CONFIG.surface.iconColor} />
                 </div>
-                <div className="space-y-2">
-                  {activePersona.surfaceBehaviors.map((trait) => (
-                    <TraitCard
-                      key={trait.id}
-                      trait={trait}
-                      layerType="surface"
-                      isSelected={selectedCard?.cardId === trait.id}
-                      onClick={() => handleCardSelect(activePersona.id, 'surface', trait, trait.id)}
-                    />
-                  ))}
-                </div>
+                <span className="font-semibold text-slate-700 text-sm">
+                  表面化した行動
+                </span>
+              </div>
+              <div className="space-y-2">
+                {activePersona.surfaceBehaviors.map((trait) => (
+                  <TraitCard
+                    key={trait.id}
+                    trait={trait}
+                    layerType="surface"
+                    isSelected={selectedCard?.cardId === trait.id}
+                    onClick={() => handleCardSelect(activePersona.id, 'surface', trait, trait.id)}
+                  />
+                ))}
               </div>
             </div>
           </div>
+        </div>
 
-          {/* Section 2: Integrated Persona */}
+        {/* Section 2: 人材像 */}
+        <div className="w-72">
           <button
             onClick={() => handleCardSelect(
               activePersona.id,
@@ -549,35 +539,39 @@ export default function TalentPage({ params }: { params: { companyId: string } }
               activePersona.personaSummary
             )}
             className={cn(
-              "w-full bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl p-6 text-white shadow-lg text-left transition-all",
+              "w-full bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl p-5 text-white shadow-lg text-left transition-all h-full",
               selectedCard?.layerType === 'persona' && selectedCard?.personaId === activePersona.id
                 && "ring-4 ring-offset-2 ring-indigo-300"
             )}
           >
-            <div className="flex items-start gap-4">
-              <div className="bg-white/20 p-3 rounded-xl">
-                <User size={24} className="text-white" />
+            <div className="flex items-center gap-2 mb-3">
+              <div className="bg-white/20 p-2 rounded-lg">
+                <User size={18} className="text-white" />
               </div>
-              <div className="flex-1">
-                <h3 className="text-lg font-bold mb-2">人材像</h3>
-                <p className="text-indigo-100 leading-relaxed">
-                  {activePersona.personaSummary}
-                </p>
-              </div>
-              <Edit3 size={18} className="text-white/60" />
+              <h3 className="font-bold text-sm uppercase tracking-wide text-white/80">人材像</h3>
+            </div>
+            <p className="text-white/90 text-sm leading-relaxed">
+              {activePersona.personaSummary}
+            </p>
+            <div className="flex justify-end mt-3">
+              <Edit3 size={14} className="text-white/50" />
             </div>
           </button>
         </div>
-
-        {/* Right: Editor Panel */}
-        <div className="w-80 bg-white rounded-2xl border border-slate-200 overflow-hidden">
-          <EditorPanel
-            selectedCard={selectedCard}
-            onClose={() => setSelectedCard(null)}
-            onSave={handleEditorSave}
-          />
-        </div>
       </div>
+
+      {/* Bottom: Editor Panel */}
+      {selectedCard && (
+        <div className="mt-6 bg-white rounded-2xl border border-slate-200 overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-200">
+          <div className="max-w-2xl mx-auto">
+            <EditorPanel
+              selectedCard={selectedCard}
+              onClose={() => setSelectedCard(null)}
+              onSave={handleEditorSave}
+            />
+          </div>
+        </div>
+      )}
 
       {/* Footer */}
       <div className="text-center pt-6">

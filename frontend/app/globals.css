@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 248 250 252;
+    --foreground: 15 23 42;
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900 antialiased;
+  }
+}
+
+/* Custom scrollbar */
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    @apply bg-slate-200 rounded-full;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    @apply bg-slate-300;
+  }
+}
+
+/* Animation utilities */
+@layer utilities {
+  .animate-in {
+    animation: fade-in 0.5s ease-out;
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Typography for document preview */
+@layer components {
+  .prose-document {
+    @apply text-slate-800 leading-relaxed;
+  }
+
+  .prose-document h1 {
+    @apply text-3xl font-bold mb-6 text-slate-900;
+  }
+
+  .prose-document h2 {
+    @apply text-xl font-bold mb-4 text-slate-900;
+  }
+
+  .prose-document h3 {
+    @apply text-lg font-semibold mb-2 text-slate-900;
+  }
+
+  .prose-document p {
+    @apply mb-4;
+  }
+
+  .prose-document ul {
+    @apply list-disc pl-6 mb-4;
+  }
+
+  .prose-document li {
+    @apply mb-1;
+  }
+}
