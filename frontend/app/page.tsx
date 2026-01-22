@@ -35,9 +35,10 @@ export default function HomePage() {
 
   const handleStartProject = async () => {
     setIsLoading(true);
-    
-    const companyId = `c-${Date.now().toString(36)}`;
-    
+
+    // Use fixed 'demo' companyId for static export compatibility
+    const companyId = 'demo';
+
     // Save to store
     setCompany({
       id: companyId,
