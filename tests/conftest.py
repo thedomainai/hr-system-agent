@@ -5,14 +5,12 @@ Provides common fixtures for mocking external services and creating test data.
 """
 
 import asyncio
-from collections.abc import AsyncGenerator, Generator
-from datetime import datetime
+from collections.abc import Generator
 from typing import Any
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import MagicMock, patch
 from uuid import uuid4
 
 import pytest
-from pydantic import BaseModel
 
 # =============================================================================
 # Async Event Loop
@@ -183,12 +181,11 @@ def mock_rabbitmq_client(
     async def get_mock_rabbitmq() -> MockRabbitMQClient:
         return mock_rabbitmq
 
-    with patch("src.services.get_rabbitmq_client", side_effect=get_mock_rabbitmq):
-        with patch(
-            "src.services.rabbitmq_client.get_rabbitmq_client",
-            side_effect=get_mock_rabbitmq,
-        ):
-            yield
+    with patch("src.services.get_rabbitmq_client", side_effect=get_mock_rabbitmq), patch(
+        "src.services.rabbitmq_client.get_rabbitmq_client",
+        side_effect=get_mock_rabbitmq,
+    ):
+        yield
 
 
 # =============================================================================

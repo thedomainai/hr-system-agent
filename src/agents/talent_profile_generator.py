@@ -8,7 +8,7 @@ Generates the Ideal Talent Profile (求める人材像) with
 from typing import Any
 
 from src.core import AgentResult, BaseAgent, HITLGateId
-from src.domain import Competency, CompetencyElement, GraduationRequirement, IdealTalentProfile
+from src.domain import Competency, CompetencyElement, IdealTalentProfile
 from src.utils import get_logger
 
 logger = get_logger(__name__)
@@ -56,7 +56,7 @@ class TalentProfileGeneratorAgent(BaseAgent):
                     error="Company context not found. Run context_collector first.",
                 )
 
-            company_id = company_data.get("company_id", "unknown")
+            company_data.get("company_id", "unknown")
 
             # Generate talent profile
             profile = await self._generate_profile(company_data, enriched)

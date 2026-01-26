@@ -9,26 +9,11 @@ from pydantic import ValidationError
 
 from src.domain.models.company import (
     Company,
+    CompanySize,
     Competency,
     CompetencyElement,
-    CompanySize,
-    GraduationRequirement,
     IdealTalentProfile,
     Industry,
-)
-from src.domain.models.grading import (
-    CompetencyLevel,
-    Grade,
-    GradingSystem,
-    GradeLevel,
-    GradeTrack,
-)
-from src.domain.models.evaluation import (
-    EvaluationCriterion,
-    EvaluationPeriod,
-    EvaluationSystem,
-    EvaluationTemplate,
-    EvaluationType,
 )
 from src.domain.models.compensation import (
     Allowance,
@@ -36,10 +21,19 @@ from src.domain.models.compensation import (
     BonusType,
     CompensationSystem,
     SalaryBand,
-    SalaryComponent,
-    SalaryType,
 )
-
+from src.domain.models.evaluation import (
+    EvaluationCriterion,
+    EvaluationPeriod,
+    EvaluationSystem,
+    EvaluationType,
+)
+from src.domain.models.grading import (
+    CompetencyLevel,
+    Grade,
+    GradeTrack,
+    GradingSystem,
+)
 
 # =============================================================================
 # Company Model Tests

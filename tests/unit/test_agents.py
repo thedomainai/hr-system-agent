@@ -9,12 +9,11 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from src.core.agent_base import AgentResult, AgentState, AgentStatus, BaseAgent
-from src.agents.context_collector import ContextCollectorAgent
-from src.agents.grading_designer import GradingDesignerAgent
-from src.agents.evaluation_designer import EvaluationDesignerAgent
 from src.agents.compensation_designer import CompensationDesignerAgent
-
+from src.agents.context_collector import ContextCollectorAgent
+from src.agents.evaluation_designer import EvaluationDesignerAgent
+from src.agents.grading_designer import GradingDesignerAgent
+from src.core.agent_base import AgentResult, AgentState, AgentStatus, BaseAgent
 
 # =============================================================================
 # AgentResult Tests
@@ -201,19 +200,17 @@ class TestContextCollectorAgent:
         with patch(
             "src.core.agent_base.get_redis_client",
             return_value=mock_redis,
+        ), patch(
+            "src.core.agent_base.get_rabbitmq_client",
+            return_value=mock_rabbitmq,
+        ), patch.object(
+            agent, "call_llm", return_value=llm_response
         ):
-            with patch(
-                "src.core.agent_base.get_rabbitmq_client",
-                return_value=mock_rabbitmq,
-            ):
-                with patch.object(
-                    agent, "call_llm", return_value=llm_response
-                ) as mock_llm:
-                    result = await agent.execute(sample_company_data)
+            result = await agent.execute(sample_company_data)
 
-                    assert result.success is True
-                    assert result.requires_hitl is True
-                    assert "company" in result.data
+            assert result.success is True
+            assert result.requires_hitl is True
+            assert "company" in result.data
 
     @pytest.mark.asyncio
     async def test_execute_missing_required_fields(
@@ -301,18 +298,16 @@ class TestGradingDesignerAgent:
         with patch(
             "src.core.agent_base.get_redis_client",
             return_value=mock_redis,
-        ):
-            with patch(
-                "src.core.agent_base.get_rabbitmq_client",
-                return_value=mock_rabbitmq,
-            ):
-                with patch.object(agent, "call_llm", return_value=llm_response):
-                    result = await agent.execute(input_data)
+        ), patch(
+            "src.core.agent_base.get_rabbitmq_client",
+            return_value=mock_rabbitmq,
+        ), patch.object(agent, "call_llm", return_value=llm_response):
+            result = await agent.execute(input_data)
 
-                    assert result.success is True
-                    assert result.requires_hitl is True
-                    assert "grading_system" in result.data
-                    assert "grades" in result.data["grading_system"]
+            assert result.success is True
+            assert result.requires_hitl is True
+            assert "grading_system" in result.data
+            assert "grades" in result.data["grading_system"]
 
     @pytest.mark.asyncio
     async def test_execute_missing_company_context(
@@ -358,20 +353,19 @@ class TestGradingDesignerAgent:
         with patch(
             "src.core.agent_base.get_redis_client",
             return_value=mock_redis,
+        ), patch(
+            "src.core.agent_base.get_rabbitmq_client",
+            return_value=mock_rabbitmq,
         ):
-            with patch(
-                "src.core.agent_base.get_rabbitmq_client",
-                return_value=mock_rabbitmq,
+            # Make LLM return invalid JSON
+            with patch.object(
+                agent, "call_llm", return_value="Invalid JSON response"
             ):
-                # Make LLM return invalid JSON
-                with patch.object(
-                    agent, "call_llm", return_value="Invalid JSON response"
-                ):
-                    result = await agent.execute(input_data)
+                result = await agent.execute(input_data)
 
-                    # Should still succeed with default system
-                    assert result.success is True
-                    assert "grading_system" in result.data
+                # Should still succeed with default system
+                assert result.success is True
+                assert "grading_system" in result.data
 
 
 # =============================================================================
@@ -442,17 +436,15 @@ class TestEvaluationDesignerAgent:
         with patch(
             "src.core.agent_base.get_redis_client",
             return_value=mock_redis,
-        ):
-            with patch(
-                "src.core.agent_base.get_rabbitmq_client",
-                return_value=mock_rabbitmq,
-            ):
-                with patch.object(agent, "call_llm", return_value=llm_response):
-                    result = await agent.execute(input_data)
+        ), patch(
+            "src.core.agent_base.get_rabbitmq_client",
+            return_value=mock_rabbitmq,
+        ), patch.object(agent, "call_llm", return_value=llm_response):
+            result = await agent.execute(input_data)
 
-                    assert result.success is True
-                    assert result.requires_hitl is True
-                    assert "evaluation_system" in result.data
+            assert result.success is True
+            assert result.requires_hitl is True
+            assert "evaluation_system" in result.data
 
     @pytest.mark.asyncio
     async def test_execute_missing_context(
@@ -535,17 +527,15 @@ class TestCompensationDesignerAgent:
         with patch(
             "src.core.agent_base.get_redis_client",
             return_value=mock_redis,
-        ):
-            with patch(
-                "src.core.agent_base.get_rabbitmq_client",
-                return_value=mock_rabbitmq,
-            ):
-                with patch.object(agent, "call_llm", return_value=llm_response):
-                    result = await agent.execute(input_data)
+        ), patch(
+            "src.core.agent_base.get_rabbitmq_client",
+            return_value=mock_rabbitmq,
+        ), patch.object(agent, "call_llm", return_value=llm_response):
+            result = await agent.execute(input_data)
 
-                    assert result.success is True
-                    assert result.requires_hitl is True
-                    assert "compensation_system" in result.data
+            assert result.success is True
+            assert result.requires_hitl is True
+            assert "compensation_system" in result.data
 
     @pytest.mark.asyncio
     async def test_execute_missing_context(
