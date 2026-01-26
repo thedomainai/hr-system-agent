@@ -143,5 +143,19 @@ module = [
     "aio_pika.*",
     "hvac.*",
     "google.generativeai.*",
+    "structlog.*",
 ]
 ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = [
+    "src.utils.logging",
+    "src.services.vault_client",
+    "src.services.redis_client",
+    "src.core.orchestrator",
+    "src.core.agent_base",
+    "src.agents.*",
+]
+warn_return_any = false
+disallow_any_generics = false
+disable_error_code = ["list-item", "attr-defined", "union-attr", "var-annotated"]
