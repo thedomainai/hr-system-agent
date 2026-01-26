@@ -17,7 +17,7 @@ import { cn } from '@/lib/utils/cn';
 export default function GradingPageClient() {
   const router = useRouter();
   const params = useParams<{ companyId: string }>();
-  const { gradingSystem, talentProfile, generateEvaluation, setStep } = useAppStore();
+  const { gradingSystem, talentProfileV2, generateEvaluation, setStep } = useAppStore();
   const [isGenerating, setIsGenerating] = useState(false);
   const [expandedGradeLevel, setExpandedGradeLevel] = useState<string | null>(null);
   const [showPrevGrade, setShowPrevGrade] = useState(true);
@@ -31,7 +31,7 @@ export default function GradingPageClient() {
     router.push(`/${params.companyId}/evaluation`);
   };
 
-  if (!gradingSystem || !talentProfile) {
+  if (!gradingSystem || !talentProfileV2) {
     return (
       <div className="flex items-center justify-center h-64">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
@@ -144,11 +144,11 @@ export default function GradingPageClient() {
                 </span>
               </div>
               <div className="grid grid-cols-3 gap-3">
-                {talentProfile.competencies.map((comp, idx) => (
+                {competencyNames.map((compName, idx) => (
                   <div key={idx} className="bg-white p-3 rounded border border-slate-200">
-                    <p className="text-xs font-bold text-slate-500 mb-1">{comp.name}</p>
+                    <p className="text-xs font-bold text-slate-500 mb-1">{compName}</p>
                     <p className="text-xs text-slate-600 line-clamp-3">
-                      {getCompetencyDefinition(grade.level, comp.name)}
+                      {getCompetencyDefinition(grade.level, compName)}
                     </p>
                   </div>
                 ))}
@@ -280,11 +280,11 @@ export default function GradingPageClient() {
                         </h4>
 
                         <div className="grid grid-cols-3 gap-4">
-                          {talentProfile.competencies.map((comp, idx) => (
+                          {competencyNames.map((compName, idx) => (
                             <div key={idx} className="bg-slate-50 rounded-lg border border-slate-100 p-4">
-                              <h5 className="font-bold text-slate-800 mb-2 text-sm">{comp.name}</h5>
+                              <h5 className="font-bold text-slate-800 mb-2 text-sm">{compName}</h5>
                               <p className="text-sm text-slate-600 leading-relaxed">
-                                {getCompetencyDefinition(grade.level, comp.name)}
+                                {getCompetencyDefinition(grade.level, compName)}
                               </p>
                             </div>
                           ))}
