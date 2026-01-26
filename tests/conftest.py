@@ -116,6 +116,7 @@ def mock_redis() -> MockRedisClient:
 @pytest.fixture
 def mock_redis_client(mock_redis: MockRedisClient) -> Generator[None, None, None]:
     """Mock get_redis_client for tests."""
+
     async def get_mock_redis() -> MockRedisClient:
         return mock_redis
 
@@ -135,36 +136,42 @@ class MockRabbitMQClient:
     def __init__(self) -> None:
         self.published_messages: list[dict[str, Any]] = []
 
-    async def publish_agent_task(
-        self, agent_type: str, task_data: dict[str, Any]
-    ) -> None:
+    async def publish_agent_task(self, agent_type: str, task_data: dict[str, Any]) -> None:
         """Record published agent task."""
-        self.published_messages.append({
-            "type": "agent_task",
-            "agent_type": agent_type,
-            "data": task_data,
-        })
+        self.published_messages.append(
+            {
+                "type": "agent_task",
+                "agent_type": agent_type,
+                "data": task_data,
+            }
+        )
 
     async def publish_hitl_request(self, request_data: dict[str, Any]) -> None:
         """Record published HITL request."""
-        self.published_messages.append({
-            "type": "hitl_request",
-            "data": request_data,
-        })
+        self.published_messages.append(
+            {
+                "type": "hitl_request",
+                "data": request_data,
+            }
+        )
 
     async def publish_hitl_response(self, response_data: dict[str, Any]) -> None:
         """Record published HITL response."""
-        self.published_messages.append({
-            "type": "hitl_response",
-            "data": response_data,
-        })
+        self.published_messages.append(
+            {
+                "type": "hitl_response",
+                "data": response_data,
+            }
+        )
 
     async def publish_orchestrator_event(self, event_data: dict[str, Any]) -> None:
         """Record published orchestrator event."""
-        self.published_messages.append({
-            "type": "orchestrator_event",
-            "data": event_data,
-        })
+        self.published_messages.append(
+            {
+                "type": "orchestrator_event",
+                "data": event_data,
+            }
+        )
 
 
 @pytest.fixture
@@ -178,12 +185,16 @@ def mock_rabbitmq_client(
     mock_rabbitmq: MockRabbitMQClient,
 ) -> Generator[None, None, None]:
     """Mock get_rabbitmq_client for tests."""
+
     async def get_mock_rabbitmq() -> MockRabbitMQClient:
         return mock_rabbitmq
 
-    with patch("src.services.get_rabbitmq_client", side_effect=get_mock_rabbitmq), patch(
-        "src.services.rabbitmq_client.get_rabbitmq_client",
-        side_effect=get_mock_rabbitmq,
+    with (
+        patch("src.services.get_rabbitmq_client", side_effect=get_mock_rabbitmq),
+        patch(
+            "src.services.rabbitmq_client.get_rabbitmq_client",
+            side_effect=get_mock_rabbitmq,
+        ),
     ):
         yield
 

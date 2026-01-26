@@ -95,19 +95,19 @@ class TalentProfileGeneratorAgent(BaseAgent):
         user_message = f"""以下の企業情報に基づいて「求める人材像」を設計してください。
 
 企業情報:
-- 企業名: {company_data.get('name', '')}
-- 業界: {company_data.get('industry', '')}
-- 従業員数: {company_data.get('employee_count', 0)}名
-- ミッション: {company_data.get('mission', '')}
-- ビジョン: {company_data.get('vision', '')}
-- 価値観: {', '.join(company_data.get('values', []))}
-- 設計目標: {', '.join(company_data.get('design_goals', []))}
+- 企業名: {company_data.get("name", "")}
+- 業界: {company_data.get("industry", "")}
+- 従業員数: {company_data.get("employee_count", 0)}名
+- ミッション: {company_data.get("mission", "")}
+- ビジョン: {company_data.get("vision", "")}
+- 価値観: {", ".join(company_data.get("values", []))}
+- 設計目標: {", ".join(company_data.get("design_goals", []))}
 
 業界特性:
-{enriched.get('industry_characteristics', '')}
+{enriched.get("industry_characteristics", "")}
 
 推奨コンピテンシー:
-{', '.join(enriched.get('key_competencies_for_industry', []))}
+{", ".join(enriched.get("key_competencies_for_industry", []))}
 
 以下の形式でJSONを返してください：
 {{
@@ -159,7 +159,7 @@ class TalentProfileGeneratorAgent(BaseAgent):
                 for elem_data in comp_data.get("elements", [])[:2]:
                     elements.append(
                         CompetencyElement(
-                            name=elem_data.get("name", f"要素{len(elements)+1}"),
+                            name=elem_data.get("name", f"要素{len(elements) + 1}"),
                             description=elem_data.get("description", ""),
                             behavioral_indicators=elem_data.get("behavioral_indicators", []),
                         )
@@ -169,7 +169,7 @@ class TalentProfileGeneratorAgent(BaseAgent):
                 while len(elements) < 2:
                     elements.append(
                         CompetencyElement(
-                            name=f"要素{len(elements)+1}",
+                            name=f"要素{len(elements) + 1}",
                             description="（要定義）",
                             behavioral_indicators=[],
                         )
@@ -177,7 +177,7 @@ class TalentProfileGeneratorAgent(BaseAgent):
 
                 competencies.append(
                     Competency(
-                        name=comp_data.get("name", f"コンピテンシー{i+1}"),
+                        name=comp_data.get("name", f"コンピテンシー{i + 1}"),
                         description=comp_data.get("description", ""),
                         elements=elements,
                         weight=comp_data.get("weight", 0.33),
@@ -188,7 +188,7 @@ class TalentProfileGeneratorAgent(BaseAgent):
             while len(competencies) < 3:
                 competencies.append(
                     Competency(
-                        name=f"コンピテンシー{len(competencies)+1}",
+                        name=f"コンピテンシー{len(competencies) + 1}",
                         description="（要定義）",
                         elements=[
                             CompetencyElement(name="要素1", description="（要定義）"),

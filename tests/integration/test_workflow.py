@@ -51,14 +51,10 @@ class TestWorkflowIntegration:
         assert step_ids == expected_steps
 
     @pytest.mark.asyncio
-    async def test_workflow_start(
-        self, mock_redis: MagicMock, mock_rabbitmq: MagicMock
-    ) -> None:
+    async def test_workflow_start(self, mock_redis: MagicMock, mock_rabbitmq: MagicMock) -> None:
         """Test starting a workflow."""
         with patch("src.core.orchestrator.get_redis_client", return_value=mock_redis):
-            with patch(
-                "src.core.orchestrator.get_rabbitmq_client", return_value=mock_rabbitmq
-            ):
+            with patch("src.core.orchestrator.get_rabbitmq_client", return_value=mock_rabbitmq):
                 orchestrator = Orchestrator(company_id="test-company")
                 initial_data = {"name": "Test Company", "industry": "consulting"}
 
@@ -74,9 +70,7 @@ class TestWorkflowIntegration:
     ) -> None:
         """Test executing a workflow step."""
         with patch("src.core.orchestrator.get_redis_client", return_value=mock_redis):
-            with patch(
-                "src.core.orchestrator.get_rabbitmq_client", return_value=mock_rabbitmq
-            ):
+            with patch("src.core.orchestrator.get_rabbitmq_client", return_value=mock_rabbitmq):
                 orchestrator = Orchestrator(company_id="test-company")
                 await orchestrator.start({})
 
@@ -86,9 +80,7 @@ class TestWorkflowIntegration:
                 mock_rabbitmq.publish_agent_task.assert_called_once()
 
     @pytest.mark.asyncio
-    async def test_workflow_progress(
-        self, mock_redis: MagicMock, mock_rabbitmq: MagicMock
-    ) -> None:
+    async def test_workflow_progress(self, mock_redis: MagicMock, mock_rabbitmq: MagicMock) -> None:
         """Test getting workflow progress."""
         orchestrator = Orchestrator(company_id="test-company")
 
@@ -104,9 +96,7 @@ class TestWorkflowIntegration:
     ) -> None:
         """Test handling step completion."""
         with patch("src.core.orchestrator.get_redis_client", return_value=mock_redis):
-            with patch(
-                "src.core.orchestrator.get_rabbitmq_client", return_value=mock_rabbitmq
-            ):
+            with patch("src.core.orchestrator.get_rabbitmq_client", return_value=mock_rabbitmq):
                 orchestrator = Orchestrator(company_id="test-company")
                 await orchestrator.start({})
 
@@ -125,9 +115,7 @@ class TestWorkflowIntegration:
     ) -> None:
         """Test workflow waiting for HITL approval."""
         with patch("src.core.orchestrator.get_redis_client", return_value=mock_redis):
-            with patch(
-                "src.core.orchestrator.get_rabbitmq_client", return_value=mock_rabbitmq
-            ):
+            with patch("src.core.orchestrator.get_rabbitmq_client", return_value=mock_rabbitmq):
                 orchestrator = Orchestrator(company_id="test-company")
                 await orchestrator.start({})
 
@@ -147,9 +135,7 @@ class TestWorkflowIntegration:
     ) -> None:
         """Test HITL approval continues workflow."""
         with patch("src.core.orchestrator.get_redis_client", return_value=mock_redis):
-            with patch(
-                "src.core.orchestrator.get_rabbitmq_client", return_value=mock_rabbitmq
-            ):
+            with patch("src.core.orchestrator.get_rabbitmq_client", return_value=mock_rabbitmq):
                 orchestrator = Orchestrator(company_id="test-company")
                 await orchestrator.start({})
 
@@ -176,9 +162,7 @@ class TestWorkflowIntegration:
     ) -> None:
         """Test HITL rejection fails workflow."""
         with patch("src.core.orchestrator.get_redis_client", return_value=mock_redis):
-            with patch(
-                "src.core.orchestrator.get_rabbitmq_client", return_value=mock_rabbitmq
-            ):
+            with patch("src.core.orchestrator.get_rabbitmq_client", return_value=mock_rabbitmq):
                 orchestrator = Orchestrator(company_id="test-company")
                 await orchestrator.start({})
 
@@ -204,9 +188,7 @@ class TestWorkflowIntegration:
     ) -> None:
         """Test handling step failure."""
         with patch("src.core.orchestrator.get_redis_client", return_value=mock_redis):
-            with patch(
-                "src.core.orchestrator.get_rabbitmq_client", return_value=mock_rabbitmq
-            ):
+            with patch("src.core.orchestrator.get_rabbitmq_client", return_value=mock_rabbitmq):
                 orchestrator = Orchestrator(company_id="test-company")
                 await orchestrator.start({})
 
@@ -221,9 +203,7 @@ class TestWorkflowIntegration:
                 assert orchestrator.state.status == WorkflowStatus.FAILED
 
     @pytest.mark.asyncio
-    async def test_workflow_load_from_redis(
-        self, mock_redis: MagicMock
-    ) -> None:
+    async def test_workflow_load_from_redis(self, mock_redis: MagicMock) -> None:
         """Test loading workflow from Redis."""
         stored_state = {
             "workflow_id": "wf-123",

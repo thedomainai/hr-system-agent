@@ -235,9 +235,7 @@ class BaseAgent(ABC):
         finally:
             await self._stop_heartbeat()
 
-    async def resume_after_hitl(
-        self, approved: bool, feedback: str | None = None
-    ) -> AgentResult:
+    async def resume_after_hitl(self, approved: bool, feedback: str | None = None) -> AgentResult:
         """Resume agent execution after HITL decision."""
         self.state.context["hitl_approved"] = approved
         self.state.context["hitl_feedback"] = feedback

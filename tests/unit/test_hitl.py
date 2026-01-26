@@ -166,9 +166,7 @@ class TestHITLManager:
         return mock
 
     @pytest.mark.asyncio
-    async def test_create_request(
-        self, manager: HITLManager, mock_redis: MagicMock
-    ) -> None:
+    async def test_create_request(self, manager: HITLManager, mock_redis: MagicMock) -> None:
         """Test creating a HITL request."""
         with patch("src.core.hitl_manager.get_redis_client", return_value=mock_redis):
             with patch("src.core.hitl_manager.get_settings") as mock_settings:
@@ -194,9 +192,7 @@ class TestHITLManager:
                 mock_redis.client.sadd.assert_called_once()
 
     @pytest.mark.asyncio
-    async def test_get_request(
-        self, manager: HITLManager, mock_redis: MagicMock
-    ) -> None:
+    async def test_get_request(self, manager: HITLManager, mock_redis: MagicMock) -> None:
         """Test retrieving a HITL request."""
         stored_request = {
             "request_id": "req-123",
@@ -220,9 +216,7 @@ class TestHITLManager:
             assert request.gate_id == "HITL-001"
 
     @pytest.mark.asyncio
-    async def test_get_request_not_found(
-        self, manager: HITLManager, mock_redis: MagicMock
-    ) -> None:
+    async def test_get_request_not_found(self, manager: HITLManager, mock_redis: MagicMock) -> None:
         """Test retrieving a non-existent request."""
         mock_redis.get_json.return_value = None
 
@@ -253,9 +247,7 @@ class TestHITLManager:
         mock_redis.get_json.return_value = stored_request
 
         with patch("src.core.hitl_manager.get_redis_client", return_value=mock_redis):
-            with patch(
-                "src.core.hitl_manager.get_rabbitmq_client", return_value=mock_rabbitmq
-            ):
+            with patch("src.core.hitl_manager.get_rabbitmq_client", return_value=mock_rabbitmq):
                 decision = await manager.submit_decision(
                     request_id="req-123",
                     approved=True,
@@ -296,9 +288,7 @@ class TestHITLManager:
         mock_redis.get_json.return_value = stored_request
 
         with patch("src.core.hitl_manager.get_redis_client", return_value=mock_redis):
-            with patch(
-                "src.core.hitl_manager.get_rabbitmq_client", return_value=mock_rabbitmq
-            ):
+            with patch("src.core.hitl_manager.get_rabbitmq_client", return_value=mock_rabbitmq):
                 decision = await manager.submit_decision(
                     request_id="req-123",
                     approved=False,
@@ -353,9 +343,7 @@ class TestHITLManager:
             assert decision is None
 
     @pytest.mark.asyncio
-    async def test_cancel_request(
-        self, manager: HITLManager, mock_redis: MagicMock
-    ) -> None:
+    async def test_cancel_request(self, manager: HITLManager, mock_redis: MagicMock) -> None:
         """Test cancelling a pending request."""
         stored_request = {
             "request_id": "req-123",
@@ -416,9 +404,7 @@ class TestHITLManager:
         assert info["required"] is False
 
     @pytest.mark.asyncio
-    async def test_get_pending_requests(
-        self, manager: HITLManager, mock_redis: MagicMock
-    ) -> None:
+    async def test_get_pending_requests(self, manager: HITLManager, mock_redis: MagicMock) -> None:
         """Test getting pending requests for a company."""
         mock_redis.client.smembers.return_value = {"req-1", "req-2"}
 
