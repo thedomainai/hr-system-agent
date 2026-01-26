@@ -120,6 +120,7 @@ async def retry_workflow_step(workflow_id: str, step_id: str) -> WorkflowRespons
 
     # Reset step and re-execute
     from src.core import WorkflowStatus
+
     step.status = WorkflowStatus.PENDING
     step.error = None
     orchestrator.state.status = WorkflowStatus.RUNNING

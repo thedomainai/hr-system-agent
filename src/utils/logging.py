@@ -44,7 +44,9 @@ def get_processors(json_format: bool) -> list[Processor]:
         shared_processors.append(structlog.processors.JSONRenderer())
     else:
         shared_processors.append(
-            structlog.dev.ConsoleRenderer(colors=True, exception_formatter=structlog.dev.plain_traceback)
+            structlog.dev.ConsoleRenderer(
+                colors=True, exception_formatter=structlog.dev.plain_traceback
+            )
         )
 
     return shared_processors

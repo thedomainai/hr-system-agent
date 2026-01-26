@@ -97,13 +97,13 @@ class GradingDesignerAgent(BaseAgent):
         user_message = f"""以下の企業情報と求める人材像に基づいて等級制度を設計してください。
 
 企業情報:
-- 企業名: {company_data.get('name', '')}
-- 業界: {company_data.get('industry', '')}
-- 従業員数: {company_data.get('employee_count', 0)}名
-- 成長段階: {company_data.get('growth_stage', '')}
+- 企業名: {company_data.get("name", "")}
+- 業界: {company_data.get("industry", "")}
+- 従業員数: {company_data.get("employee_count", 0)}名
+- 成長段階: {company_data.get("growth_stage", "")}
 
 求める人材像のコンピテンシー:
-{', '.join(comp_names)}
+{", ".join(comp_names)}
 
 以下の形式でJSONを返してください：
 {{
@@ -167,7 +167,7 @@ class GradingDesignerAgent(BaseAgent):
 
                 grades.append(
                     Grade(
-                        level=grade_data.get("level", f"L{len(grades)+1}"),
+                        level=grade_data.get("level", f"L{len(grades) + 1}"),
                         name=grade_data.get("name", ""),
                         track=track,
                         order=grade_data.get("order", len(grades) + 1),

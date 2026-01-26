@@ -5,8 +5,8 @@ FastAPI application for AI-powered HR policy design with
 Human-in-the-Loop approval workflows.
 """
 
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
-from typing import AsyncGenerator
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware

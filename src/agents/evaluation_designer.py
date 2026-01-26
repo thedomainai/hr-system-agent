@@ -101,14 +101,14 @@ class EvaluationDesignerAgent(BaseAgent):
         user_message = f"""以下の情報に基づいて評価制度を設計してください。
 
 企業情報:
-- 企業名: {company_data.get('name', '')}
-- 業界: {company_data.get('industry', '')}
-- 従業員数: {company_data.get('employee_count', 0)}名
+- 企業名: {company_data.get("name", "")}
+- 業界: {company_data.get("industry", "")}
+- 従業員数: {company_data.get("employee_count", 0)}名
 
 コンピテンシー:
 {self._format_competencies(competencies)}
 
-等級: {[g.get('level') for g in grades]}
+等級: {[g.get("level") for g in grades]}
 
 以下の形式でJSONを返してください：
 {{
@@ -196,7 +196,9 @@ class EvaluationDesignerAgent(BaseAgent):
 
         except Exception as e:
             logger.warning("ai_evaluation_design_failed", error=str(e))
-            return self._create_default_evaluation_system(company_data, talent_profile, grading_system)
+            return self._create_default_evaluation_system(
+                company_data, talent_profile, grading_system
+            )
 
     def _format_competencies(self, competencies: list[dict[str, Any]]) -> str:
         """Format competencies for prompt."""

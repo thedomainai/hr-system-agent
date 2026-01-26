@@ -153,7 +153,11 @@ class GradingSystem(BaseModel):
             return []
 
         return sorted(
-            [g for g in self.grades if g.order > current_grade.order and g.track == current_grade.track],
+            [
+                g
+                for g in self.grades
+                if g.order > current_grade.order and g.track == current_grade.track
+            ],
             key=lambda g: g.order,
         )
 

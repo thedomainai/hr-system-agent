@@ -151,8 +151,7 @@ class Orchestrator:
 
             # Check if all dependencies are completed
             deps_completed = all(
-                self._get_step(dep_id)
-                and self._get_step(dep_id).status == WorkflowStatus.COMPLETED
+                self._get_step(dep_id) and self._get_step(dep_id).status == WorkflowStatus.COMPLETED
                 for dep_id in step.depends_on
             )
 
@@ -322,9 +321,7 @@ class Orchestrator:
     async def _check_workflow_completion(self) -> None:
         """Check if workflow is complete and start next steps."""
         # Check if all steps are completed
-        all_completed = all(
-            step.status == WorkflowStatus.COMPLETED for step in self.state.steps
-        )
+        all_completed = all(step.status == WorkflowStatus.COMPLETED for step in self.state.steps)
 
         if all_completed:
             self.state.status = WorkflowStatus.COMPLETED
@@ -362,9 +359,7 @@ class Orchestrator:
 
     def get_progress(self) -> dict[str, Any]:
         """Get workflow progress summary."""
-        completed = sum(
-            1 for s in self.state.steps if s.status == WorkflowStatus.COMPLETED
-        )
+        completed = sum(1 for s in self.state.steps if s.status == WorkflowStatus.COMPLETED)
         total = len(self.state.steps)
 
         return {

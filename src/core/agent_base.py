@@ -6,6 +6,7 @@ LLM interaction, and HITL integration.
 """
 
 import asyncio
+import contextlib
 from abc import ABC, abstractmethod
 from datetime import datetime
 from enum import Enum
@@ -109,10 +110,8 @@ class BaseAgent(ABC):
         """Stop heartbeat loop."""
         if self._heartbeat_task:
             self._heartbeat_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self._heartbeat_task
-            except asyncio.CancelledError:
-                pass
             self._heartbeat_task = None
 
     async def call_llm(
@@ -236,9 +235,7 @@ class BaseAgent(ABC):
         finally:
             await self._stop_heartbeat()
 
-    async def resume_after_hitl(
-        self, approved: bool, feedback: str | None = None
-    ) -> AgentResult:
+    async def resume_after_hitl(self, approved: bool, feedback: str | None = None) -> AgentResult:
         """Resume agent execution after HITL decision."""
         self.state.context["hitl_approved"] = approved
         self.state.context["hitl_feedback"] = feedback

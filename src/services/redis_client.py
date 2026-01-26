@@ -52,9 +52,7 @@ class RedisClient:
         """Get a value by key."""
         return await self.client.get(key)
 
-    async def set(
-        self, key: str, value: str, expire_seconds: int | None = None
-    ) -> None:
+    async def set(self, key: str, value: str, expire_seconds: int | None = None) -> None:
         """Set a value with optional expiration."""
         if expire_seconds:
             await self.client.setex(key, expire_seconds, value)
@@ -87,9 +85,7 @@ class RedisClient:
         """Get agent state."""
         return await self.get_json(f"agent:state:{agent_id}")
 
-    async def set_agent_state(
-        self, agent_id: str, state: dict[str, Any], ttl: int = 3600
-    ) -> None:
+    async def set_agent_state(self, agent_id: str, state: dict[str, Any], ttl: int = 3600) -> None:
         """Set agent state with TTL."""
         await self.set_json(f"agent:state:{agent_id}", state, ttl)
 
@@ -111,9 +107,7 @@ class RedisClient:
         """Get session data."""
         return await self.get_json(f"session:{session_id}")
 
-    async def set_session(
-        self, session_id: str, data: dict[str, Any], ttl: int = 86400
-    ) -> None:
+    async def set_session(self, session_id: str, data: dict[str, Any], ttl: int = 86400) -> None:
         """Set session data with TTL (default 24 hours)."""
         await self.set_json(f"session:{session_id}", data, ttl)
 

@@ -127,9 +127,7 @@ class ContextCollectorAgent(BaseAgent):
             constraints=data.get("constraints", []),
         )
 
-    async def _enrich_context(
-        self, company: Company, raw_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _enrich_context(self, company: Company, raw_data: dict[str, Any]) -> dict[str, Any]:
         """Use AI to enrich and analyze company context."""
         user_message = f"""以下の企業情報を分析し、人事制度設計に必要なコンテキストを整理してください。
 
@@ -139,11 +137,11 @@ class ContextCollectorAgent(BaseAgent):
 - 従業員数: {company.employee_count}名
 - ミッション: {company.mission}
 - ビジョン: {company.vision}
-- 価値観: {', '.join(company.values)}
+- 価値観: {", ".join(company.values)}
 - 事業モデル: {company.business_model}
 - 成長段階: {company.growth_stage}
-- 既存の人事制度: {'あり' if company.has_existing_hr_system else 'なし'}
-- 設計目標: {', '.join(company.design_goals)}
+- 既存の人事制度: {"あり" if company.has_existing_hr_system else "なし"}
+- 設計目標: {", ".join(company.design_goals)}
 
 以下の形式でJSONを返してください：
 {{

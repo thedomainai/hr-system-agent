@@ -103,11 +103,11 @@ class CompensationDesignerAgent(BaseAgent):
         user_message = f"""以下の情報に基づいて報酬制度を設計してください。
 
 企業情報:
-- 企業名: {company_data.get('name', '')}
+- 企業名: {company_data.get("name", "")}
 - 業界: {industry}
-- 従業員数: {company_data.get('employee_count', 0)}名
+- 従業員数: {company_data.get("employee_count", 0)}名
 
-等級: {[g.get('level') for g in grades]}
+等級: {[g.get("level") for g in grades]}
 
 以下の形式でJSONを返してください：
 {{

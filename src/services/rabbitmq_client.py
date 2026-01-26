@@ -53,9 +53,7 @@ class RabbitMQClient:
             raise RuntimeError("RabbitMQ client not connected")
         return self._channel
 
-    async def declare_queue(
-        self, queue_name: str, durable: bool = True
-    ) -> AbstractQueue:
+    async def declare_queue(self, queue_name: str, durable: bool = True) -> AbstractQueue:
         """Declare a queue and cache it."""
         if queue_name not in self._queues:
             queue = await self.channel.declare_queue(queue_name, durable=durable)
@@ -83,9 +81,7 @@ class RabbitMQClient:
         )
         logger.debug("message_published", queue=queue_name)
 
-    async def consume(
-        self, queue_name: str, handler: MessageHandler, no_ack: bool = False
-    ) -> None:
+    async def consume(self, queue_name: str, handler: MessageHandler, no_ack: bool = False) -> None:
         """Start consuming messages from a queue."""
         import json
 
@@ -111,9 +107,7 @@ class RabbitMQClient:
         logger.info("consumer_started", queue=queue_name)
 
     # Predefined queues for the application
-    async def publish_agent_task(
-        self, agent_type: str, task: dict[str, Any]
-    ) -> None:
+    async def publish_agent_task(self, agent_type: str, task: dict[str, Any]) -> None:
         """Publish a task to an agent's queue."""
         await self.publish(f"agent.{agent_type}.tasks", task)
 

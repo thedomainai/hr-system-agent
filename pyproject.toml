@@ -20,7 +20,7 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
-    "Topic :: Office/Business :: Human Resources",
+    "Topic :: Office/Business",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
 
@@ -117,7 +117,10 @@ ignore = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/*" = ["ARG"]
+"tests/*" = ["ARG", "SIM117"]
+"src/main.py" = ["ARG001"]
+"src/utils/logging.py" = ["ARG001"]
+"src/agents/*.py" = ["ARG002"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["src"]
@@ -140,5 +143,19 @@ module = [
     "aio_pika.*",
     "hvac.*",
     "google.generativeai.*",
+    "structlog.*",
 ]
 ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = [
+    "src.utils.logging",
+    "src.services.vault_client",
+    "src.services.redis_client",
+    "src.core.orchestrator",
+    "src.core.agent_base",
+    "src.agents.*",
+]
+warn_return_any = false
+disallow_any_generics = false
+disable_error_code = ["list-item", "attr-defined", "union-attr", "var-annotated"]

@@ -103,9 +103,7 @@ class VaultClient:
         """Get company-specific secrets."""
         return self.read_secret(f"hr-system-agent/companies/{company_id}")
 
-    def store_company_secrets(
-        self, company_id: str, secrets: dict[str, Any]
-    ) -> None:
+    def store_company_secrets(self, company_id: str, secrets: dict[str, Any]) -> None:
         """Store company-specific secrets."""
         self.write_secret(f"hr-system-agent/companies/{company_id}", secrets)
 
