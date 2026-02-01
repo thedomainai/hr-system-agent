@@ -2,14 +2,15 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { 
-  LayoutGrid, 
-  ArrowRight, 
-  Building2, 
-  Users, 
-  Factory, 
+import {
+  LayoutGrid,
+  Building2,
+  Users,
+  Factory,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  FileText,
+  Check
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { useAppStore } from '@/lib/store/useAppStore';
@@ -24,6 +25,8 @@ export default function HomePage() {
     employeeCount: '',
     industry: '',
     philosophy: '',
+    // 行動指針/バリューの有無
+    hasValues: null as boolean | null,
     // Optional metrics
     averageSalary: '',
     turnoverRate: '',
@@ -46,16 +49,21 @@ export default function HomePage() {
       employeeCount: parseInt(formData.employeeCount),
       industry: formData.industry,
       philosophy: formData.philosophy,
+      hasValues: formData.hasValues || false,
       // Fixed Basic Plan - implicit
       averageSalary: formData.averageSalary ? parseFloat(formData.averageSalary) : undefined,
       turnoverRate: formData.turnoverRate ? parseFloat(formData.turnoverRate) : undefined,
       managerRatio: formData.managerRatio ? parseFloat(formData.managerRatio) : undefined,
     });
 
-    setStep(1); // Start at Talent step
-    
-    // Skip analysis, go directly to Talent
-    router.push(`/${companyId}/talent`);
+    setStep(1);
+
+    // Navigate based on whether they have values
+    if (formData.hasValues) {
+      router.push(`/${companyId}/values`);
+    } else {
+      router.push(`/${companyId}/talent`);
+    }
   };
 
   return (
@@ -132,6 +140,67 @@ export default function HomePage() {
               </div>
             </div>
 
+            {/* 行動指針/バリューの有無 */}
+            <div className="col-span-2 pt-4 border-t border-slate-100">
+              <label className="block text-sm font-medium text-slate-700 mb-3">
+                行動指針/バリューの有無 <span className="text-red-500">*</span>
+              </label>
+              <div className="grid grid-cols-2 gap-3">
+                <button
+                  type="button"
+                  onClick={() => setFormData({ ...formData, hasValues: true })}
+                  className={`p-4 rounded-xl border-2 text-left transition-all ${
+                    formData.hasValues === true
+                      ? 'border-primary-500 bg-primary-50'
+                      : 'border-slate-200 hover:border-primary-200'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                      formData.hasValues === true ? 'bg-primary-500 text-white' : 'bg-slate-100 text-slate-400'
+                    }`}>
+                      <FileText size={20} />
+                    </div>
+                    <div>
+                      <p className={`font-semibold ${formData.hasValues === true ? 'text-primary-900' : 'text-slate-700'}`}>
+                        ある
+                      </p>
+                      <p className="text-xs text-slate-500">既存のバリューを活用</p>
+                    </div>
+                    {formData.hasValues === true && (
+                      <Check size={20} className="ml-auto text-primary-500" />
+                    )}
+                  </div>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setFormData({ ...formData, hasValues: false })}
+                  className={`p-4 rounded-xl border-2 text-left transition-all ${
+                    formData.hasValues === false
+                      ? 'border-primary-500 bg-primary-50'
+                      : 'border-slate-200 hover:border-primary-200'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                      formData.hasValues === false ? 'bg-primary-500 text-white' : 'bg-slate-100 text-slate-400'
+                    }`}>
+                      <LayoutGrid size={20} />
+                    </div>
+                    <div>
+                      <p className={`font-semibold ${formData.hasValues === false ? 'text-primary-900' : 'text-slate-700'}`}>
+                        ない
+                      </p>
+                      <p className="text-xs text-slate-500">新規に人材像を定義</p>
+                    </div>
+                    {formData.hasValues === false && (
+                      <Check size={20} className="ml-auto text-primary-500" />
+                    )}
+                  </div>
+                </button>
+              </div>
+            </div>
+
             {/* Optional Metrics */}
             <div className="col-span-2 pt-2">
               <button
@@ -188,11 +257,10 @@ export default function HomePage() {
 
           <Button
             onClick={handleStartProject}
-            disabled={!formData.name || !formData.employeeCount || isLoading}
+            disabled={!formData.name || !formData.employeeCount || formData.hasValues === null || isLoading}
             className="w-full h-12 text-base"
-            icon={isLoading ? undefined : <ArrowRight size={20} />}
           >
-            {isLoading ? '準備中...' : '人材像の定義へ進む'}
+            {isLoading ? '準備中...' : formData.hasValues ? 'バリューの入力へ進む' : '人材像の定義へ進む'}
           </Button>
         </div>
       </div>
