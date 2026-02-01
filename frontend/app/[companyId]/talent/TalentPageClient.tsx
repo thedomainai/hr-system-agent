@@ -239,6 +239,7 @@ export default function TalentPageClient() {
   const router = useRouter();
   const params = useParams<{ companyId: string }>();
   const {
+    company,
     talentProfileV2,
     generateTalentProfileV2,
     updateTraitCard,
@@ -246,6 +247,9 @@ export default function TalentPageClient() {
     generateGrading,
     setStep
   } = useAppStore();
+
+  // Check if company has values defined
+  const hasCompanyValues = company?.hasValues && company.companyValues && company.companyValues.length > 0;
 
   const [mode, setMode] = useState<'selection' | 'generating' | 'review'>('selection');
   const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
@@ -312,6 +316,59 @@ export default function TalentPageClient() {
 
   // --- Render: Selection Step ---
   if (mode === 'selection') {
+    // If company has values, show them instead of keyword selection
+    if (hasCompanyValues) {
+      return (
+        <div className="max-w-3xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <div className="text-center">
+            <h2 className="text-2xl font-bold text-slate-900">行動指針/バリューからの人材像定義</h2>
+            <p className="text-slate-500 mt-2">
+              入力された行動指針/バリューをもとに、「求める人材像」を定義します。
+            </p>
+          </div>
+
+          {/* Show company values */}
+          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+            <h3 className="font-semibold text-slate-800 mb-4 flex items-center gap-2">
+              <Heart size={18} className="text-primary-500" />
+              {company?.name}の行動指針/バリュー
+            </h3>
+            <div className="grid gap-3">
+              {company?.companyValues?.map((value, index) => (
+                <div
+                  key={value.id}
+                  className="p-4 bg-gradient-to-r from-primary-50 to-purple-50 rounded-xl border border-primary-100"
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="w-8 h-8 bg-primary-500 text-white rounded-lg flex items-center justify-center text-sm font-bold shrink-0">
+                      {index + 1}
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-slate-800">{value.title}</h4>
+                      {value.description && (
+                        <p className="text-sm text-slate-600 mt-1">{value.description}</p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex justify-center pt-4">
+            <Button
+              onClick={handleGenerate}
+              className="w-full max-w-sm h-12 text-base"
+              icon={<Sparkles size={18} />}
+            >
+              バリューから人材像を生成する
+            </Button>
+          </div>
+        </div>
+      );
+    }
+
+    // No company values - show keyword selection
     return (
       <div className="max-w-3xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
         <div className="text-center">

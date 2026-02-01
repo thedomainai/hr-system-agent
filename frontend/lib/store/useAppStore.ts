@@ -3,12 +3,21 @@ import { persist } from 'zustand/middleware';
 
 // --- Domain Types (Simplified for Frontend MVP) ---
 
+export interface CompanyValue {
+  id: string;
+  title: string;
+  description: string;
+}
+
 export interface CompanyInfo {
   id: string;
   name: string;
   employeeCount: number;
   industry: string;
   philosophy: string;
+  // 行動指針/バリュー
+  hasValues: boolean;
+  companyValues?: CompanyValue[];
   // Optional metrics
   averageSalary?: number;
   turnoverRate?: number;
